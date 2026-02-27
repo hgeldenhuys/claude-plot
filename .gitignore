@@ -1,0 +1,9 @@
+node_modules/
+dist/
+bun.lock
+*.tsbuildinfo
+
+# Sample stories (created during testing)
+.plot/board/PLOT-*.md
+.plot/archive/PLOT-*.md
+.plot/retros/PLOT-*.md

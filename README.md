@@ -139,6 +139,10 @@ your-project/
 │   ├── CLAUDE.md       # Project instructions (Plot-aware)
 │   ├── settings.json
 │   └── skills/plot-*/SKILL.md  # The 6 Plot skills
+├── tui/                # Board TUI (real-time terminal dashboard)
+│   ├── board.tsx       # Main app — board view with file watcher
+│   ├── parse.ts        # YAML frontmatter parser for stories
+│   └── watch.ts        # File watcher with debouncing
 └── tests/              # Optional: headless Claude test harness
 ```
 
@@ -164,6 +168,33 @@ done_when:            # Definition of Done
 roles: [backend, frontend, test, docs, ops]
 max_agents: 3
 ```
+
+## Board TUI
+
+A real-time terminal dashboard that watches `.plot/` for changes and updates live.
+
+```bash
+cd plot
+bun install               # install dependencies (needs ink-panels)
+node --import tsx tui/board.tsx
+```
+
+**Navigation:**
+- `j/k` — move up/down
+- `Enter` — drill into story (shows ACs and tasks)
+- `Escape` / `[` — go back
+- `a` — toggle board/archive view
+- `r` — manual refresh
+- `q` — quit
+
+**Real-time:** The board watches `.plot/board/` and `.plot/archive/` for file changes. When Claude updates a story (via `/plot-plan`, `/plot-execute`, etc.), the TUI refreshes automatically.
+
+**Drill-down hierarchy:**
+```
+Board → Story (ACs + Tasks list) → AC Detail / Task Detail
+```
+
+**Dependency:** Requires [ink-panels](https://github.com/hgeldenhuys/ink-panels) — a stack-based TUI framework built on Ink + React 19. Run with `node --import tsx` (not Bun — Ink has stdin issues under Bun).
 
 ## Testing
 

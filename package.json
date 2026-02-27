@@ -1,0 +1,24 @@
+{
+  "name": "plot-tui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "board": "node --import tsx tui/board.tsx",
+    "dev": "node --import tsx tui/board.tsx --watch"
+  },
+  "dependencies": {
+    "ink-panels": "*",
+    "ink": "^6.7.0",
+    "react": "^19.0.0",
+    "js-yaml": "^4.1.1",
+    "chalk": "^5.4.1"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "@types/react": "^19.0.0",
+    "@types/node": "^22.0.0",
+    "@types/js-yaml": "^4.0.9",
+    "typescript": "^5.7.0"
+  }
+}
