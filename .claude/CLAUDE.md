@@ -4,10 +4,11 @@ This project uses **Plot**, a minimal SDLC powered by Claude Code skills.
 
 ## How It Works
 
-- **Board:** `board/` folder contains story files (Markdown + YAML frontmatter)
-- **Archive:** `archive/` holds completed stories
-- **Retros:** `retros/` holds retrospectives
-- **Learnings:** `learnings.md` accumulates tactical learnings across stories
+- **Board:** `.plot/board/` folder contains story files (Markdown + YAML frontmatter)
+- **Archive:** `.plot/archive/` holds completed stories
+- **Retros:** `.plot/retros/` holds retrospectives
+- **Learnings:** `.plot/learnings.md` accumulates tactical learnings across stories
+- **Config:** `.plot/board/config.yaml` holds project prefix, counter, DoR, DoD
 
 ## Story Lifecycle
 
@@ -28,16 +29,11 @@ idea → planned → active → verifying → done → archived
 
 ## Story Format
 
-Stories are Markdown files with YAML frontmatter in `board/`. Fields use short names:
+Stories are Markdown files with YAML frontmatter in `.plot/board/`. Fields use short names:
 - `do` (task title), `what` (AC description), `proof` (evidence)
 - `needs` (dependencies), `covers` (AC coverage), `role` (agent type)
 
-## Config
-
-`board/config.yaml` holds project prefix, counter, Definition of Ready, and Definition of Done.
-
 ## Conventions
 
-- Use Bun runtime
-- Prefer for-loops over forEach
 - No external CLI dependencies — skills use only built-in Claude Code tools
+- All Plot data lives under `.plot/` (hidden folder, like `.git/`)

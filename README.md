@@ -5,9 +5,15 @@
 ## Quick Start
 
 ```bash
-cd plot
+cd your-project
+
+# Copy Plot into your project (or clone it)
+git clone https://github.com/hgeldenhuys/claude-plot.git
+cp -r claude-plot/.claude .claude
+cp -r claude-plot/.plot .plot
+
+# Start Claude and use the skills
 claude
-# Then use the skills:
 # /plot-ideate         — describe your idea
 # /plot-plan PLOT-001  — break it into tasks
 # /plot-execute PLOT-001 — spawn agents to build it
@@ -20,17 +26,20 @@ claude
 
 ### The Board
 
-The `board/` folder IS the board. Each `.md` file is a story.
+The `.plot/board/` folder IS the board. Each `.md` file is a story.
 
 ```
-board/
-├── config.yaml     # Project config (prefix, counter, DoR, DoD)
-├── PLOT-001.md     # Active story
-├── PLOT-002.md     # Another story
-└── PLOT-003.md     # ...
+.plot/
+├── board/
+│   ├── config.yaml     # Project config (prefix, counter, DoR, DoD)
+│   ├── PLOT-001.md     # Active story
+│   └── PLOT-002.md     # Another story
+├── archive/            # Completed stories
+├── retros/             # Retrospectives
+└── learnings.md        # Accumulated tactical learnings
 ```
 
-`ls board/PLOT-*.md` shows all active stories. That's your board view.
+`ls .plot/board/PLOT-*.md` shows all active stories. That's your board view.
 
 ### Story Lifecycle
 
@@ -45,7 +54,7 @@ idea → planned → active → verifying → done → archived
 | `active` | Agents are working on tasks |
 | `verifying` | Implementation done, collecting evidence |
 | `done` | All ACs passing with proof |
-| `archived` | Retrospective done, moved to `archive/` |
+| `archived` | Retrospective done, moved to `.plot/archive/` |
 
 ### Story Format
 
@@ -95,31 +104,32 @@ why: "All endpoints are currently public."
 
 | Skill | Input | Output |
 |-------|-------|--------|
-| `/plot-ideate` | Rough idea | `board/PLOT-NNN.md` with status `idea` |
+| `/plot-ideate` | Rough idea | `.plot/board/PLOT-NNN.md` with status `idea` |
 | `/plot-plan` | Story ID | Tasks added, status → `planned` |
 | `/plot-execute` | Story ID | Agents spawned, status → `verifying` |
 | `/plot-verify` | Story ID | ACs evaluated, status → `done` |
-| `/plot-close` | Story ID | Retro generated, story → `archive/` |
+| `/plot-close` | Story ID | Retro generated, story → `.plot/archive/` |
 | `/plot-run` | Story ID | Full pipeline with gates |
 
 ## Structure
 
 ```
-plot/
-├── board/           # Active stories + config
-├── archive/         # Completed stories
-├── retros/          # Retrospectives
-├── learnings.md     # Accumulated tactical learnings
-├── .claude/         # Claude project (skills + config)
-│   ├── CLAUDE.md
+your-project/
+├── .plot/              # All Plot data (hidden, like .git/)
+│   ├── board/          # Active stories + config
+│   ├── archive/        # Completed stories
+│   ├── retros/         # Retrospectives
+│   └── learnings.md    # Accumulated tactical learnings
+├── .claude/            # Claude Code project config
+│   ├── CLAUDE.md       # Project instructions (Plot-aware)
 │   ├── settings.json
-│   └── skills/plot-*/SKILL.md
-└── tests/           # Headless Claude test harness
+│   └── skills/plot-*/SKILL.md  # The 6 Plot skills
+└── tests/              # Optional: headless Claude test harness
 ```
 
 ## Config
 
-`board/config.yaml`:
+`.plot/board/config.yaml`:
 
 ```yaml
 project: my-project
@@ -145,7 +155,6 @@ max_agents: 3
 Run the headless test suite:
 
 ```bash
-cd plot
 bash tests/run.sh
 ```
 
@@ -154,16 +163,17 @@ Tests invoke Claude in headless mode (`-p`) to validate each skill produces corr
 ## Design Principles
 
 - **No dependencies.** Skills use only Claude Code built-in tools (Read, Write, Edit, Glob, Grep, Task, Bash).
-- **Board = folder.** `ls board/` is your board view.
+- **Board = folder.** `ls .plot/board/` is your board view.
 - **Stories are self-describing.** One file = all state.
 - **Short field names.** `do` not `title`, `what` not `description`, `proof` not `evidence`. Saves tokens.
 - **6 statuses.** No unnecessary states. `idea → planned → active → verifying → done → archived`.
 - **Single learnings file.** No per-role memory overhead.
+- **Hidden data folder.** `.plot/` keeps working data out of your project root, like `.git/`.
 
-## Copying to Another Project
+## Installing Into an Existing Project
 
-Plot is standalone. To use it in a different project:
-
-1. Copy the `plot/` folder into your project
-2. Edit `board/config.yaml` (set project name, prefix)
-3. `cd plot && claude` — skills are discovered automatically
+1. Copy `.claude/skills/plot-*/` into your project's `.claude/skills/`
+2. Copy `.plot/` into your project root
+3. Add Plot info to your `.claude/CLAUDE.md`
+4. Edit `.plot/board/config.yaml` (set project name, prefix)
+5. `claude` — skills are discovered automatically

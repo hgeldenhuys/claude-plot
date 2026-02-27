@@ -27,7 +27,7 @@ Examples:
 
 ### Step 0: Determine Pipeline
 
-Read `board/{STORY-ID}.md` and determine entry point from status:
+Read `.plot/board/{STORY-ID}.md` and determine entry point from status:
 
 | Story Status | Default Start |
 |---|---|
@@ -117,8 +117,8 @@ plan ✓ → execute ✓ → verify ✓ → close ✓
 ### Summary
 - Tasks: {N} completed
 - ACs: {N}/{N} passing
-- Retro: retros/{STORY-ID}.md
-- Archived: archive/{STORY-ID}.md
+- Retro: .plot/retros/{STORY-ID}.md
+- Archived: .plot/archive/{STORY-ID}.md
 
 ### Learnings Captured
 - {learning 1}

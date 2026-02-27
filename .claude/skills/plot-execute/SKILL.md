@@ -10,18 +10,18 @@ You are executing `/plot-execute` to implement planned tasks by spawning special
 
 ## Input
 
-The user provides a story ID (e.g., `PLOT-001`). The story must exist in `board/` with status `planned`.
+The user provides a story ID (e.g., `PLOT-001`). The story must exist in `.plot/board/` with status `planned`.
 
 ## Process
 
 ### Step 1: Read and Validate
 
-Read `board/{STORY-ID}.md` and validate:
+Read `.plot/board/{STORY-ID}.md` and validate:
 - Status is `planned`
 - Tasks array is populated
 - Dependencies are valid (no cycles, all referenced tasks exist)
 
-Also read `board/config.yaml` for `max_agents`.
+Also read `.plot/board/config.yaml` for `max_agents`.
 
 ### Step 2: Set Active
 
@@ -60,7 +60,7 @@ You are working on story {STORY-ID}: "{title}"
 
 Your task: {task-id} — {task-do}
 
-Read the story file at `board/{STORY-ID}.md` for full context.
+Read the story file at `.plot/board/{STORY-ID}.md` for full context.
 
 Your built-in task ID is #{builtin-task-id}. Update it:
 - TaskUpdate taskId="{id}" status="in_progress" when you start
@@ -81,7 +81,7 @@ When done, include a brief summary of what you did and any issues encountered.
 ### Step 5: Update Story After Each Agent
 
 After each agent completes:
-1. Read `board/{STORY-ID}.md` fresh
+1. Read `.plot/board/{STORY-ID}.md` fresh
 2. Find the completed task in the `tasks:` array
 3. Use `Edit` to change its `status:` from `pending` to `done`
 

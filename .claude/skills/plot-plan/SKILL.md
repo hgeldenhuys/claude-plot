@@ -10,18 +10,18 @@ You are executing `/plot-plan` to decompose a story into actionable tasks.
 
 ## Input
 
-The user provides a story ID (e.g., `PLOT-001`). The story must exist in `board/` with status `idea`.
+The user provides a story ID (e.g., `PLOT-001`). The story must exist in `.plot/board/` with status `idea`.
 
 ## Process
 
 ### Step 1: Read Story
 
-Read `board/{STORY-ID}.md` and extract:
+Read `.plot/board/{STORY-ID}.md` and extract:
 - Acceptance criteria
 - Requirements
 - Why context
 
-Also read `board/config.yaml` for conventions.
+Also read `.plot/board/config.yaml` for conventions.
 
 ### Step 2: Explore Codebase
 

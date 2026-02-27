@@ -10,13 +10,13 @@ You are executing `/plot-close` to finalize a completed story.
 
 ## Input
 
-The user provides a story ID (e.g., `PLOT-001`). The story must be in `board/` with status `done`.
+The user provides a story ID (e.g., `PLOT-001`). The story must be in `.plot/board/` with status `done`.
 
 ## Process
 
 ### Step 1: Read Story
 
-Read `board/{STORY-ID}.md` to gather:
+Read `.plot/board/{STORY-ID}.md` to gather:
 - Full context (title, why, requirements)
 - Task completion details
 - AC results with proof
@@ -24,7 +24,7 @@ Read `board/{STORY-ID}.md` to gather:
 
 ### Step 2: Generate Retrospective
 
-Create `retros/{STORY-ID}.md` with this format:
+Create `.plot/retros/{STORY-ID}.md` with this format:
 
 ```markdown
 # Retrospective: {STORY-ID} — {title}
@@ -69,7 +69,7 @@ Identify tactical learnings from this story:
 - Gotchas and pitfalls encountered
 - Project-specific knowledge gained
 
-Read `learnings.md`, then use `Edit` to append new learnings after the `---` separator:
+Read `.plot/learnings.md`, then use `Edit` to append new learnings after the `---` separator:
 
 ```markdown
 ## {STORY-ID}: {title} ({date})
@@ -78,21 +78,21 @@ Read `learnings.md`, then use `Edit` to append new learnings after the `---` sep
 - {Learning 3}
 ```
 
-If `learnings.md` exceeds 100 lines, consolidate older entries — merge related items, remove duplicates, tighten wording.
+If `.plot/learnings.md` exceeds 100 lines, consolidate older entries — merge related items, remove duplicates, tighten wording.
 
 ### Step 4: Archive Story
 
-1. Read the full content of `board/{STORY-ID}.md`
+1. Read the full content of `.plot/board/{STORY-ID}.md`
 2. Use `Edit` to change `status: done` to `status: archived` in the frontmatter
-3. Use `Write` to create `archive/{STORY-ID}.md` with the full content (now with archived status)
-4. Delete the original from `board/` using `Bash`: `rm board/{STORY-ID}.md`
+3. Use `Write` to create `.plot/archive/{STORY-ID}.md` with the full content (now with archived status)
+4. Delete the original from `.plot/board/` using `Bash`: `rm .plot/board/{STORY-ID}.md`
 
 ### Step 5: Report
 
 Tell the user:
-- Retrospective location: `retros/{STORY-ID}.md`
+- Retrospective location: `.plot/retros/{STORY-ID}.md`
 - Number of learnings captured
-- Story archived to: `archive/{STORY-ID}.md`
+- Story archived to: `.plot/archive/{STORY-ID}.md`
 - Suggest: create a git commit with all changes
 
 ## Retrospective Quality
@@ -106,7 +106,7 @@ A good retrospective:
 ## Guidelines
 
 - Don't inflate the retrospective — be honest
-- Keep `learnings.md` lean — consolidate when it grows
+- Keep `.plot/learnings.md` lean — consolidate when it grows
 - The archive is permanent — make sure the story file is complete
 - If no real learnings, don't force it — skip the learnings step
 - Include concrete metrics: files changed, tests written, tasks completed

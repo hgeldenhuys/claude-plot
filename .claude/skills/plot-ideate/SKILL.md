@@ -16,7 +16,7 @@ The user provides a rough idea — a sentence, paragraph, or feature request.
 
 ### Step 1: Read Config
 
-Read `board/config.yaml` to get the project prefix and current counter.
+Read `.plot/board/config.yaml` to get the project prefix and current counter.
 
 ### Step 2: Clarify (if needed)
 
@@ -45,9 +45,9 @@ Create 2-5 testable acceptance criteria. Each must be:
 
 ### Step 5: Create Story File
 
-1. Read `board/config.yaml`, get `counter`, increment it
-2. Update `board/config.yaml` with new counter value using `Edit`
-3. Write `board/{PREFIX}-{NNN}.md` with this format:
+1. Read `.plot/board/config.yaml`, get `counter`, increment it
+2. Update `.plot/board/config.yaml` with new counter value using `Edit`
+3. Write `.plot/board/{PREFIX}-{NNN}.md` with this format:
 
 ```yaml
 ---
@@ -99,4 +99,4 @@ Tell the user:
 - If the idea is massive, suggest breaking into multiple stories
 - Don't over-engineer the requirements — they'll be refined during planning
 - Use `AskUserQuestion` sparingly — 1-2 rounds maximum
-- Always increment the counter in config.yaml BEFORE writing the story file
+- Always increment the counter in `.plot/board/config.yaml` BEFORE writing the story file

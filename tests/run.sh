@@ -49,13 +49,13 @@ check_file_contains() {
 
 cleanup() {
   # Reset config counter
-  if [ -f board/config.yaml ]; then
-    sed -i '' 's/^counter: .*/counter: 0/' board/config.yaml 2>/dev/null || true
+  if [ -f .plot/board/config.yaml ]; then
+    sed -i '' 's/^counter: .*/counter: 0/' .plot/board/config.yaml 2>/dev/null || true
   fi
   # Remove test artifacts
-  rm -f board/PLOT-*.md
-  rm -f archive/PLOT-*.md
-  rm -f retros/PLOT-*.md
+  rm -f .plot/board/PLOT-*.md
+  rm -f .plot/archive/PLOT-*.md
+  rm -f .plot/retros/PLOT-*.md
 }
 
 # ─── Test 1: Ideate ──────────────────────────────────────
@@ -75,7 +75,7 @@ test_ideate() {
 
   # Check story was created
   local story_file
-  story_file=$(ls board/PLOT-*.md 2>/dev/null | head -1)
+  story_file=$(ls .plot/board/PLOT-*.md 2>/dev/null | head -1)
 
   if [ -n "$story_file" ]; then
     pass "Story file created: $(basename "$story_file")"
@@ -84,7 +84,7 @@ test_ideate() {
     check_file_contains "$story_file" "acceptance_criteria:" "Has acceptance criteria"
     check_file_contains "$story_file" "why:" "Has why field"
   else
-    fail "No story file created in board/"
+    fail "No story file created in .plot/board/"
   fi
 }
 
@@ -97,7 +97,7 @@ test_plan() {
 
   cleanup
   # Place fixture
-  cp tests/fixtures/sample-story.md board/PLOT-099.md
+  cp tests/fixtures/sample-story.md .plot/board/PLOT-099.md
 
   claude -p "/plot-plan PLOT-099" \
     --output-format json \
@@ -105,10 +105,10 @@ test_plan() {
     --dangerously-skip-permissions \
     > /dev/null 2>&1 || true
 
-  check_file_contains "board/PLOT-099.md" "status: planned" "Status changed to planned"
-  check_file_contains "board/PLOT-099.md" "  - id: T-1" "Has at least one task"
-  check_file_contains "board/PLOT-099.md" "role:" "Tasks have roles"
-  check_file_contains "board/PLOT-099.md" "covers:" "Tasks have AC coverage"
+  check_file_contains ".plot/board/PLOT-099.md" "status: planned" "Status changed to planned"
+  check_file_contains ".plot/board/PLOT-099.md" "  - id: T-1" "Has at least one task"
+  check_file_contains ".plot/board/PLOT-099.md" "role:" "Tasks have roles"
+  check_file_contains ".plot/board/PLOT-099.md" "covers:" "Tasks have AC coverage"
 }
 
 # ─── Test 3: Verify (with pre-built story) ───────────────
@@ -120,8 +120,8 @@ test_verify() {
 
   cleanup
   # Place fixture and set to verifying
-  cp tests/fixtures/sample-story.md board/PLOT-099.md
-  sed -i '' 's/status: idea/status: verifying/' board/PLOT-099.md
+  cp tests/fixtures/sample-story.md .plot/board/PLOT-099.md
+  sed -i '' 's/status: idea/status: verifying/' .plot/board/PLOT-099.md
 
   claude -p "/plot-verify PLOT-099" \
     --output-format json \
@@ -130,7 +130,7 @@ test_verify() {
     > /dev/null 2>&1 || true
 
   # Check that ACs have been evaluated (status changed from pending)
-  if grep -q "status: pass\|status: fail" board/PLOT-099.md 2>/dev/null; then
+  if grep -q "status: pass\|status: fail" .plot/board/PLOT-099.md 2>/dev/null; then
     pass "ACs were evaluated"
   else
     fail "ACs still pending — verify didn't run"
@@ -146,10 +146,10 @@ test_close() {
 
   cleanup
   # Place fixture as done
-  cp tests/fixtures/sample-story.md board/PLOT-099.md
-  sed -i '' 's/status: idea/status: done/' board/PLOT-099.md
+  cp tests/fixtures/sample-story.md .plot/board/PLOT-099.md
+  sed -i '' 's/status: idea/status: done/' .plot/board/PLOT-099.md
   # Mark ACs as passing
-  sed -i '' 's/status: pending/status: pass/' board/PLOT-099.md
+  sed -i '' 's/status: pending/status: pass/' .plot/board/PLOT-099.md
 
   claude -p "/plot-close PLOT-099" \
     --output-format json \
@@ -157,11 +157,11 @@ test_close() {
     --dangerously-skip-permissions \
     > /dev/null 2>&1 || true
 
-  check_file_exists "retros/PLOT-099.md" "Retrospective generated"
-  check_file_exists "archive/PLOT-099.md" "Story archived"
+  check_file_exists ".plot/retros/PLOT-099.md" "Retrospective generated"
+  check_file_exists ".plot/archive/PLOT-099.md" "Story archived"
 
   # Board should no longer have it
-  if [ ! -f board/PLOT-099.md ]; then
+  if [ ! -f .plot/board/PLOT-099.md ]; then
     pass "Story removed from board"
   else
     fail "Story still on board after close"

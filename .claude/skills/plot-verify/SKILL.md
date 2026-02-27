@@ -10,17 +10,17 @@ You are executing `/plot-verify` to verify that all acceptance criteria are met 
 
 ## Input
 
-The user provides a story ID (e.g., `PLOT-001`). The story should be in `board/` with status `verifying` or `active`.
+The user provides a story ID (e.g., `PLOT-001`). The story should be in `.plot/board/` with status `verifying` or `active`.
 
 ## Process
 
 ### Step 1: Read Story and Config
 
-Read `board/{STORY-ID}.md` to get:
+Read `.plot/board/{STORY-ID}.md` to get:
 - Acceptance criteria (the checklist to verify)
 - Tasks and their completion status
 
-Read `board/config.yaml` to get:
+Read `.plot/board/config.yaml` to get:
 - Definition of Done items (`done_when`)
 
 ### Step 2: Check Definition of Done First
