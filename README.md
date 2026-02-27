@@ -2,17 +2,32 @@
 
 **Plot** is a minimal, zero-dependency SDLC that runs entirely inside Claude Code. No external CLI tools, no databases, no MCP servers — just skills, files, and folders.
 
+## Install
+
+```bash
+# Clone the repo
+git clone https://github.com/hgeldenhuys/claude-plot.git
+cd claude-plot
+
+# Install skills globally + init .plot/ in current dir
+bash install.sh
+
+# Or install just the skills (available in every project)
+bash install.sh --global
+
+# Or init .plot/ in a specific project
+bash install.sh --init /path/to/your-project
+
+# Uninstall global skills
+bash install.sh --uninstall
+```
+
+After installing globally, skills are available in **every** Claude Code session. Run `bash install.sh --init` in each project that needs a board.
+
 ## Quick Start
 
 ```bash
-cd your-project
-
-# Copy Plot into your project (or clone it)
-git clone https://github.com/hgeldenhuys/claude-plot.git
-cp -r claude-plot/.claude .claude
-cp -r claude-plot/.plot .plot
-
-# Start Claude and use the skills
+# In any project with .plot/ initialized:
 claude
 # /plot-ideate         — describe your idea
 # /plot-plan PLOT-001  — break it into tasks
@@ -172,8 +187,14 @@ Tests invoke Claude in headless mode (`-p`) to validate each skill produces corr
 
 ## Installing Into an Existing Project
 
-1. Copy `.claude/skills/plot-*/` into your project's `.claude/skills/`
-2. Copy `.plot/` into your project root
-3. Add Plot info to your `.claude/CLAUDE.md`
-4. Edit `.plot/board/config.yaml` (set project name, prefix)
-5. `claude` — skills are discovered automatically
+```bash
+# From the claude-plot repo:
+bash install.sh --global              # Skills → ~/.claude/skills/ (once)
+bash install.sh --init ~/my-project   # .plot/ → ~/my-project/.plot/ (per project)
+```
+
+Or manually:
+1. Copy `.claude/skills/plot-*/` into `~/.claude/skills/` (global) or your project's `.claude/skills/`
+2. Run `bash install.sh --init` in your project (or copy `.plot/` manually)
+3. Edit `.plot/board/config.yaml` (set project name, prefix)
+4. `claude` — skills are discovered automatically
