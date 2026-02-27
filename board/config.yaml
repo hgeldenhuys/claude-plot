@@ -1,0 +1,19 @@
+project: plot-demo
+prefix: PLOT
+counter: 0
+
+# Definition of Ready — checked before planning
+ready_when:
+  - "Why is clear — we know what problem this solves"
+  - "At least 2 acceptance criteria"
+  - "Priority is set"
+
+# Definition of Done — checked before closing
+done_when:
+  - "All ACs pass with proof"
+  - "Code compiles without errors"
+  - "Tests pass"
+
+# Conventions
+roles: [backend, frontend, test, docs, ops]
+max_agents: 3
